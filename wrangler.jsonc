@@ -1,0 +1,36 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "learn-undershaft",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-18",
+  "observability": { "enabled": true },
+  "assets": {
+    "directory": "./web",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  "vars": {
+    "BASE_PATH": ""
+  },
+
+  "env": {
+    // ───────── 正式環境：unclereal.com/library/undershaft（見 library docs/adr/0001、0002） ─────────
+    "production": {
+      "name": "learn-undershaft",
+      "routes": [
+        { "pattern": "unclereal.com/library/undershaft*", "zone_name": "unclereal.com" }
+      ],
+      // 跟 library 共用同一個 D1 資料庫（book/loan 表），見 library docs/adr/0003
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "library",
+          "database_id": "e062b0e9-2110-4951-8f42-d58d823eba29"
+        }
+      ],
+      "vars": {
+        "BASE_PATH": "/library/undershaft"
+      }
+    }
+  }
+}
